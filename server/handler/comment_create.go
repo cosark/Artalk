@@ -248,7 +248,7 @@ type commentCreatedJobsArguments struct {
 func commentCreatedJobs(app *core.App, comment entity.Comment, parentComment entity.Comment, args commentCreatedJobsArguments) {
 	// Page Update (if the original page title is empty and the URL is given)
 	if app.Dao().CookPage(&args.Page).URL != "" && args.Page.Title == "" {
-		go app.Dao().FetchPageFromURL(&args.Page)
+		go app.Dao().TryFetchPageFromURL(&args.Page, app.Conf().TrustedDomains...)
 	}
 
 	// AntiSpam Check
